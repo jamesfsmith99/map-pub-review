@@ -62,12 +62,16 @@ function loadCSV() {
                             featureDisplay(pub["Good food"], "Good food")
                         ].join(" | ");
 
+                        // Add Google Maps link for directions
+                        var googleMapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+                        var directionsLink = `<a href="${googleMapsLink}" target="_blank" class="directions-link">Get Directions</a>`;
 
-                        var popupContent = `
+                        var popupContent = ` 
                             <b>${pub.Name}</b><br>
                             ${rating}/5 (${numReviews})<br>
                             Price: ${priceDisplay}<br>
-                            ${features}
+                            ${features}<br><br>
+                            ${directionsLink}
                         `;
 
                         var marker = L.marker([lat, lng]).addTo(map);
@@ -93,3 +97,22 @@ document.getElementById("reloadButton").addEventListener("click", function() {
 });
 
 console.log("Script is running!");
+
+// Add custom CSS for bottom-right link positioning
+var style = document.createElement('style');
+style.innerHTML = `
+    .leaflet-popup-content {
+        position: relative;
+    }
+    .directions-link {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        color: blue;
+        text-decoration: none;
+    }
+    .directions-link:hover {
+        text-decoration: underline;
+    }
+`;
+document.head.appendChild(style);
